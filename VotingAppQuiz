@@ -1,0 +1,60 @@
+Still not able to access
+Below Commands were Run :
+[root@ip-172-31-12-21 example-voting-app]# cd /root/example-voting-app/k8s-specifications/
+[root@ip-172-31-12-21 k8s-specifications]# ls
+db-deployment.yaml  redis-deployment.yaml  result-deployment.yaml  vote-deployment.yaml  worker-deployment.yaml
+db-service.yaml     redis-service.yaml     result-service.yaml     vote-service.yaml
+[root@ip-172-31-12-21 k8s-specifications]# kubectl apply -f .
+deployment.apps/db created
+service/db created
+deployment.apps/redis created
+service/redis created
+deployment.apps/result created
+service/result created
+deployment.apps/vote created
+service/vote created
+deployment.apps/worker created
+[root@ip-172-31-12-21 k8s-specifications]# kubectl get po
+NAME                                   READY   STATUS              RESTARTS   AGE
+db-b54cd94f4-kbnkl                     0/1     ContainerCreating   0          13s
+firstall-firstchart-6db75bbf7-wbz2n    1/1     Running             0          3h7m
+mavenir-mysql-54f7ddc699-pjdw7         0/1     Pending             0          4h14m
+redis-868d64d78-8zxv7                  0/1     ContainerCreating   0          13s
+result-5d57b59f4b-z7pg9                0/1     ContainerCreating   0          12s
+secondapp-firstchart-6774b8945-tftt2   1/1     Running             0          172m
+secondapp-mysql-0                      0/1     Pending             0          172m
+vote-94849dc97-nv9dp                   0/1     ContainerCreating   0          12s
+worker-dd46d7584-9rvjp                 0/1     ContainerCreating   0          12s
+[root@ip-172-31-12-21 k8s-specifications]# kubectl get pv
+NAME         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                  STORAGECLASS   REASON   AGE
+mongodb-pv   1Gi        RWO,ROX        Retain           Bound    default/mongodb-pvc                            4d2h
+pv-a         1Mi        RWO            Recycle          Bound    default/data-kubia-1                           3d4h
+pv-b         1Mi        RWO            Recycle          Bound    default/data-kubia-2                           3d4h
+pv-c         1Mi        RWO            Recycle          Bound    default/data-kubia-0                           3d4h
+[root@ip-172-31-12-21 k8s-specifications]# kubectl get pvc
+NAME                     STATUS    VOLUME       CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+data-kubia-0             Bound     pv-c         1Mi        RWO                           3d4h
+data-kubia-1             Bound     pv-a         1Mi        RWO                           3d4h
+data-kubia-2             Bound     pv-b         1Mi        RWO                           3d4h
+data-kubia-3             Pending                                                         3d4h
+data-secondapp-mysql-0   Pending                                                         173m
+mavenir-mysql            Pending                                                         4h15m
+mongodb-pvc              Bound     mongodb-pv   1Gi        RWO,ROX                       4d2h
+[root@ip-172-31-12-21 k8s-specifications]# kubectl get svc
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+db                         ClusterIP   10.100.182.151   <none>        5432/TCP         30s
+firstall-firstchart        ClusterIP   10.111.128.21    <none>        80/TCP           3h7m
+kubernetes                 ClusterIP   10.96.0.1        <none>        443/TCP          4h21m
+mavenir-mysql              ClusterIP   10.111.28.224    <none>        3306/TCP         4h15m
+redis                      ClusterIP   10.107.223.40    <none>        6379/TCP         29s
+result                     NodePort    10.98.53.201     <none>        5001:31001/TCP   29s
+secondapp-firstchart       ClusterIP   10.105.186.176   <none>        80/TCP           173m
+secondapp-mysql            ClusterIP   10.111.166.134   <none>        3306/TCP         173m
+secondapp-mysql-headless   ClusterIP   None             <none>        3306/TCP         173m
+vote                       NodePort    10.110.135.148   <none>        5000:31000/TCP   29s
+
+
+when i access the website it is not reachable with my public ip :
+
+http://18.140.248.161:31000
+http://18.140.248.161:31001
